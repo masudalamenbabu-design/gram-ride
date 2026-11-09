@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #eef4f8;
+}
+
+.app {
+  max-width: 420px;
+  margin: 30px auto;
+  padding: 25px 20px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 4px 18px #0002;
+  text-align: center;
+}
+
+h1 {
+  color: #087dce;
+  font-size: 30px;
+}
+
+p {
+  color: #555;
+}
+
+h3 {
+  text-align: left;
+  font-size: 16px;
+  margin-top: 25px;
+}
+
+select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 9px;
+  background: white;
+  font-size: 15px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 9px;
+  background: #078c55;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+const searchBtn = document.getElementById("searchBtn");
+const result = document.getElementById("result");
+
+searchBtn.addEventListener("click", function () {
+  if (!thana.value) {
+    result.textContent = "আগে আপনার থানা নির্বাচন করুন।";
+    return;
+  }
+
+  if (!union.value) {
+    result.textContent = "আপনার ইউনিয়ন নির্বাচন করুন।";
+    return;
+  }
+
+  result.textContent =
+    "আপনার নির্বাচিত এলাকা: " +
+    thana.options[thana.selectedIndex].text +
+    " — " + union.value;
+});
