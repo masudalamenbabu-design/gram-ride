@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>গ্রাম রাইড</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <h1>🚕 গ্রাম রাইড</h1>
+  <p>আপনার এলাকার যাতায়াত এখন আরও সহজ</p>
+
+<div id="authForm">
+  <h3>নতুন অ্যাকাউন্ট / লগইন</h3>
+
+  <input id="email" type="email" placeholder="ইমেইল লিখুন">
+
+  <input id="password" type="password" placeholder="পাসওয়ার্ড লিখুন">
+
+  <button type="button" id="signupBtn">অ্যাকাউন্ট তৈরি করুন</button>
+
+  <button type="button" id="loginBtn">লগইন করুন</button>
+
+  <p id="authMessage"></p>
+</div>
+
+  <h3>আপনার থানা নির্বাচন করুন</h3>
+  <select id="thana">
+    <option value="">থানা নির্বাচন করুন</option>
+    <option value="shyamnagar">শ্যামনগর</option>
+    <option value="koyra">কয়রা</option>
+  </select>
+
+  <h3>আপনার ইউনিয়ন নির্বাচন করুন</h3>
+  <select id="union">
+    <option value="">আগে থানা নির্বাচন করুন</option>
+  </select>
+
+  <button id="searchBtn">🚘 গাড়ি খুঁজুন</button>
+<p id="result"></p>
+  <button id="driverBtn">🚖 চালক নিবন্ধন</button>
+
+<div id="driverForm" style="display:none;">
+  <h3>চালকের তথ্য দিন</h3>
+
+  <input id="driverName" placeholder="চালকের নাম">
+  <input id="driverPhone" placeholder="মোবাইল নম্বর">
+  <input id="vehicleType" placeholder="গাড়ির ধরন">
+  <input id="vehicleNumber" placeholder="গাড়ির নম্বর">
+
+  <button id="registerBtn">নিবন্ধন করুন</button>
+  <p id="driverMessage"></p>
+</div>
+  <button>⚙️ অ্যাডমিন</button>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+</body>
+</html>
