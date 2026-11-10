@@ -4,72 +4,150 @@
 
 body {
   margin: 0;
-  padding: 20px;
+  padding: 15px;
+  background: #f1f5f2;
   font-family: Arial, sans-serif;
-  background: #eef4f8;
+  color: #202820;
 }
 
 .app {
-  max-width: 420px;
-  margin: 30px auto;
-  padding: 25px 20px;
-  background: white;
+  max-width: 480px;
+  margin: 20px auto;
+  padding: 22px;
+  background: #ffffff;
   border-radius: 18px;
-  box-shadow: 0 4px 18px #0002;
-  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 h1 {
-  color: #087dce;
-  font-size: 30px;
+  text-align: center;
+  color: #087b43;
+  margin-bottom: 8px;
 }
 
-p {
-  color: #555;
+h2, h3 {
+  color: #176b43;
 }
 
-h3 {
-  text-align: left;
-  font-size: 16px;
-  margin-top: 25px;
+.app > p {
+  text-align: center;
+  color: #68756c;
+  margin-bottom: 25px;
 }
 
+input,
 select {
   width: 100%;
-  padding: 14px;
-  border: 1px solid #ccc;
+  padding: 13px;
+  margin: 7px 0;
+  border: 1px solid #ccd8ce;
   border-radius: 9px;
-  background: white;
   font-size: 15px;
+  background: #fff;
 }
 
 button {
   width: 100%;
-  padding: 15px;
-  margin-top: 15px;
+  padding: 13px;
+  margin: 7px 0;
   border: none;
   border-radius: 9px;
-  background: #078c55;
+  background: #087b43;
   color: white;
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #056333;
+}
+
+button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+#logoutBtn,
+#backModeBtn {
+  background: #59675d;
+}
+
+#adminBtn {
+  background: #304c83;
+}
+
+#nearbyDriversBtn {
+  background: #087b43;
+}
+
+#locationMessage,
+#authMessage,
+#modeMessage,
+#driverMessage,
+#result {
+  padding: 10px;
+  border-radius: 8px;
+  background: #f0f7f1;
+  color: #315b3e;
+  overflow-wrap: anywhere;
+}
+
+#nearbyDriversList {
+  margin-top: 15px;
+}
+
+.driver-card,
+.application-card {
+  padding: 15px;
+  margin: 12px 0;
+  border: 1px solid #d8e5da;
+  border-radius: 12px;
+  background: #f9fcf9;
+}
+
+.driver-card h3,
+.application-card h3 {
+  margin-top: 0;
+  color: #087b43;
+}
+
+.driver-card p,
+.application-card p {
+  margin: 8px 0;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.call-button {
+  display: block;
+  padding: 12px;
+  margin-top: 12px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  background: #087b43;
+  color: white;
   font-weight: bold;
 }
-const searchBtn = document.getElementById("searchBtn");
-const result = document.getElementById("result");
 
-searchBtn.addEventListener("click", function () {
-  if (!thana.value) {
-    result.textContent = "আগে আপনার থানা নির্বাচন করুন।";
-    return;
+.application-card button:last-child {
+  background: #b52c2c;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e2e8e3;
+  margin: 22px 0;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 8px;
   }
 
-  if (!union.value) {
-    result.textContent = "আপনার ইউনিয়ন নির্বাচন করুন।";
-    return;
+  .app {
+    margin: 8px auto;
+    padding: 17px;
   }
-
-  result.textContent =
-    "আপনার নির্বাচিত এলাকা: " +
-    thana.options[thana.selectedIndex].text +
-    " — " + union.value;
-});
+}
