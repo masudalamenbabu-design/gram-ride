@@ -1,180 +1,228 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#087f5b">
   <title>গ্রাম রাইড</title>
+
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
-
 <body>
-<div class="app">
 
-  <h1>🏍️ গ্রাম রাইড</h1>
-  <p>আপনার এলাকার যাতায়াত এখন আরও সহজ</p>
+<header class="app-header">
+  <h1>🛵 গ্রাম রাইড</h1>
+  <p>আপনার এলাকার সহজ যাতায়াত ব্যবস্থা</p>
+</header>
 
-  <!-- Login / Signup -->
-  <div id="authForm">
-    <h3>নতুন অ্যাকাউন্ট / লগইন</h3>
+<main class="container">
 
-    <input id="email" type="email" placeholder="ইমেইল লিখুন">
-    <input id="password" type="password" placeholder="পাসওয়ার্ড লিখুন">
+  <section id="welcomeSection" class="card welcome-card">
+    <div class="welcome-icon">🛵</div>
+    <h2>আপনার গ্রামের যাতায়াত, এখন হাতের মুঠোয়!</h2>
+    <h3>আমাদের লক্ষ্য</h3>
+    <p>গ্রামের মানুষের যাতায়াত সহজ, দ্রুত ও সুবিধাজনক করা। যাত্রী ও চালকের মধ্যে সহজ যোগাযোগ তৈরি করে স্থানীয় পরিবহন ব্যবস্থাকে আরও উন্নত করা।</p>
+    <p>📍 কাছের চালক খুঁজুন</p>
+    <p>🛺 সহজে রাইডের অনুরোধ পাঠান</p>
+    <p>🤝 স্থানীয় চালকদের সঙ্গে যুক্ত হোন</p>
+    <button id="startAppBtn" class="primary-btn full-btn">শুরু করুন</button>
+  </section>
 
-    <button type="button" id="signupBtn">
-      অ্যাকাউন্ট তৈরি করুন
-    </button>
+  <section id="authSection" class="card hidden">
+    <h2>স্বাগতম</h2>
+    <button id="showRegisterBtn" class="primary-btn full-btn">নতুন অ্যাকাউন্ট তৈরি করুন</button>
+    <button id="showLoginBtn" class="secondary-btn full-btn">লগইন করুন</button>
+    <button id="backWelcomeBtn" class="secondary-btn full-btn">পেছনে যান</button>
+  </section>
 
-    <button type="button" id="loginBtn">
-      লগইন করুন
-    </button>
+  <section id="roleChoice" class="card hidden">
+    <h2>কীভাবে যুক্ত হতে চান?</h2>
+    <button id="chooseDriverBtn" class="primary-btn full-btn">🛵 চালক হিসেবে যুক্ত হন</button>
+    <button id="choosePassengerBtn" class="secondary-btn full-btn">👤 যাত্রী হিসেবে যুক্ত হন</button>
+    <button id="backAuthBtn" class="secondary-btn full-btn">পেছনে যান</button>
+  </section>
 
-    <p id="authMessage"></p>
-  </div>
+  <section id="registerForm" class="card hidden">
+    <h2 id="registerTitle">নতুন অ্যাকাউন্ট</h2>
+    <form id="registrationForm">
+      <label>সম্পূর্ণ নাম</label>
+      <input id="regName" required placeholder="আপনার নাম">
 
-  <!-- Mode Selection -->
-  <div id="modeSection" style="display:none;">
-    <h3>আপনি কীভাবে ব্যবহার করতে চান?</h3>
+      <label>ঠিকানা</label>
+      <input id="regAddress" required placeholder="গ্রাম, ইউনিয়ন ও উপজেলা">
 
-    <button type="button" id="passengerModeBtn">
-      🚘 যাত্রী মোড
-    </button>
+      <label>Gmail</label>
+      <input id="regEmail" type="email" required placeholder="আপনার Gmail">
 
-    <button type="button" id="driverModeBtn">
-      🏍️ চালক মোড
-    </button>
+      <label>মোবাইল নম্বর</label>
+      <input id="regPhone" type="tel" required placeholder="01XXXXXXXXX">
 
-    <p id="modeMessage"></p>
-  </div>
+      <div id="driverFields" class="hidden">
+        <label>গাড়ির ধরন</label>
+        <select id="regVehicleType">
+          <option value="">গাড়ি নির্বাচন করুন</option>
+          <option>মোটরসাইকেল</option>
+          <option>ইজিবাইক</option>
+          <option>নৌকা</option>
+          <option>ট্রলার</option>
+          <option>নছিমন</option>
+          <option>অ্যাম্বুলেন্স</option>
+          <option>স্পিডবোট</option>
+          <option>টলি</option>
+        </select>
 
-  <!-- Passenger Section -->
-  <div id="passengerSection" style="display:none;">
+        <label>গাড়ির নম্বর (ঐচ্ছিক)</label>
+        <input id="regVehicleNumber" placeholder="গাড়ির নম্বর">
+      </div>
 
-    <h3>📍 আপনার বর্তমান লোকেশন</h3>
+      <label>পাসওয়ার্ড</label>
+      <input id="regPassword" type="password" minlength="8" required placeholder="কমপক্ষে ৮ অক্ষর">
 
-    <button type="button" id="getLocationBtn">
-      📍 আমার বর্তমান লোকেশন
-    </button>
+      <button type="submit" class="primary-btn full-btn">অ্যাকাউন্ট তৈরি করুন</button>
+    </form>
+    <p id="registerMessage" class="message"></p>
+    <button id="backRoleBtn" class="secondary-btn full-btn">পেছনে যান</button>
+  </section>
 
-    <p id="locationMessage">
-      লোকেশন নেওয়ার জন্য বাটনে চাপ দিন।
-    </p>
+  <section id="otpForm" class="card hidden">
+    <h2>Gmail যাচাই করুন</h2>
+    <p>আপনার Gmail-এ পাঠানো OTP কোড লিখুন।</p>
+    <form id="otpVerifyForm">
+      <input id="otpCode" inputmode="numeric" placeholder="OTP কোড" required>
+      <button type="submit" class="primary-btn full-btn">যাচাই করুন</button>
+    </form>
+    <button id="resendOtpBtn" class="secondary-btn full-btn">আবার OTP পাঠান</button>
+    <p id="otpMessage" class="message"></p>
+  </section>
 
-    <h3>🏍️ ১ কিলোমিটারের মধ্যে ড্রাইভার</h3>
+  <section id="loginForm" class="card hidden">
+    <h2>লগইন করুন</h2>
+    <form id="loginFormElement">
+      <label>Gmail</label>
+      <input id="loginEmail" type="email" required>
+      <label>পাসওয়ার্ড</label>
+      <input id="loginPassword" type="password" required>
+      <button type="submit" class="primary-btn full-btn">লগইন করুন</button>
+    </form>
+    <p id="loginMessage" class="message"></p>
+    <button id="backLoginBtn" class="secondary-btn full-btn">পেছনে যান</button>
+  </section>
 
-    <button type="button" id="nearbyDriversBtn">
-      🚘 কাছাকাছি ড্রাইভার খুঁজুন
-    </button>
+  <section id="driverApplySection" class="card hidden">
+    <h2>চালক হিসেবে যুক্ত হোন</h2>
+    <p>আপনার চালক অ্যাকাউন্ট চালু করতে অ্যাডমিনের কাছে অনুমোদনের আবেদন পাঠান।</p>
+    <button id="applyDriverBtn" class="primary-btn full-btn">অ্যাডমিনের কাছে আবেদন পাঠান</button>
+    <p id="driverApplyMessage" class="message"></p>
+  </section>
 
-    <div id="nearbyDriversList">
-      <p>ড্রাইভারদের তালিকা এখানে দেখাবে।</p>
+  <section id="modeSection" class="card hidden">
+    <h2>স্বাগতম, <span id="welcomeName"></span></h2>
+    <p id="roleDashboard"></p>
+    <button id="logoutBtn" class="danger-btn full-btn">লগআউট</button>
+  </section>
+
+  <section id="driverSection" class="card hidden">
+    <h2>চালক ড্যাশবোর্ড</h2>
+    <h3 id="driverWelcomeName"></h3>
+    <div id="driverApplicationStatus" class="status-box"></div>
+
+    <div id="driverControls" class="hidden">
+      <p id="driverOnlineLabel">আপনি অফলাইনে আছেন</p>
+      <button id="driverOnlineBtn" class="primary-btn full-btn">অনলাইন হোন</button>
+      <button id="driverLocationBtn" class="secondary-btn full-btn">নিজের অবস্থান আপডেট করুন</button>
+      <h3>নতুন রাইডের অনুরোধ</h3>
+      <div id="driverRideRequests"></div>
+      <h3>যাত্রীর অবস্থান</h3>
+      <div id="driverMap" class="map-box"></div>
+      <button id="driverGoogleMapsBtn" class="secondary-btn full-btn">গুগল ম্যাপে পথ দেখুন</button>
     </div>
+
+    <p id="driverMessage" class="message"></p>
+  </section>
+
+  <section id="passengerSection" class="card hidden">
+    <h2>যাত্রী ড্যাশবোর্ড</h2>
+    <button id="getPassengerGPS" class="secondary-btn full-btn">📍 আমার লোকেশন আপডেট করুন</button>
+    <p id="passengerLocationStatus"></p>
+
+    <label>যাত্রা শুরুর স্থান</label>
+    <input id="pickupAddress" placeholder="যেখান থেকে উঠবেন">
+
+    <label>গন্তব্য</label>
+    <input id="destinationAddress" placeholder="কোথায় যাবেন">
+
+    <label>কী ধরনের বাহন প্রয়োজন?</label>
+    <select id="passengerVehicleType">
+      <option>মোটরসাইকেল</option>
+      <option>ইজিবাইক</option>
+      <option>নৌকা</option>
+      <option>ট্রলার</option>
+      <option>নছিমন</option>
+      <option>অ্যাম্বুলেন্স</option>
+      <option>স্পিডবোট</option>
+      <option>টলি</option>
+    </select>
+
+    <label>কী নিয়ে যাবেন?</label>
+    <select id="tripType">
+      <option value="passenger">যাত্রী</option>
+      <option value="goods">মালামাল</option>
+    </select>
+
+    <div id="passengerCountBox">
+      <label>যাত্রীর সংখ্যা</label>
+      <input id="passengerCount" type="number" min="1" value="1">
+    </div>
+
+    <button id="findDriversBtn" class="primary-btn full-btn">কাছের চালক খুঁজুন</button>
+    <h3>এক কিলোমিটারের মধ্যে চালক</h3>
+    <div id="nearbyDrivers"></div>
+    <h3>আমার রাইডের অবস্থা</h3>
+    <div id="passengerRideStatus"></div>
+    <h3>মানচিত্র</h3>
+    <div id="passengerMap" class="map-box"></div>
+    <p id="passengerMessage" class="message"></p>
+  </section>
+
+  <section id="adminSection" class="card hidden">
+    <h2>অ্যাডমিন ড্যাশবোর্ড</h2>
+    <p>মোট চালক: <strong id="totalDrivers">0</strong></p>
+
+    <h3>নতুন চালকের আবেদন</h3>
+    <div id="adminApplications"></div>
+
+    <h3>অনুমোদিত চালক</h3>
+    <div id="approvedDrivers"></div>
+
+    <h3>বাতিল আবেদন</h3>
+    <div id="rejectedDrivers"></div>
 
     <hr>
 
-    <h3>আপনার থানা নির্বাচন করুন</h3>
+    <h3>এলাকার জায়গা পরিচিতি ও ব্যবস্থাপনা</h3>
+    <label for="newPlaceName">জায়গার নাম</label>
+    <input id="newPlaceName" type="text" placeholder="নতুন জায়গার নাম লিখুন">
 
-    <select id="thana">
-      <option value="">থানা নির্বাচন করুন</option>
-      <option value="shyamnagar">শ্যামনগর</option>
-      <option value="koyra">কয়রা</option>
-    </select>
+    <button id="addPlaceBtn" class="primary-btn full-btn">জায়গা যোগ করুন</button>
 
-    <h3>আপনার ইউনিয়ন নির্বাচন করুন</h3>
+    <div id="placeList"></div>
 
-    <select id="union">
-      <option value="">আগে থানা নির্বাচন করুন</option>
-    </select>
+    <button id="refreshAdminBtn" class="secondary-btn full-btn">তথ্য আপডেট করুন</button>
+    <p id="adminMessage" class="message"></p>
+  </section>
 
-    <button type="button" id="searchBtn">
-      🚘 গাড়ি খুঁজুন
-    </button>
+</main>
 
-    <p id="result"></p>
+<footer class="app-footer">
+  গ্রাম রাইড © ২০২৬
+  <p>স্থানীয় যাতায়াতের একটি পরীক্ষামূলক উদ্যোগ</p>
+  <small>পরিকল্পনা নির্মাতা-M.A.BABU</small>
+</footer>
 
-  </div>
-
-  <!-- Driver Section -->
-  <div id="driverSection" style="display:none;">
-
-    <h3>চালক হিসেবে যুক্ত হন</h3>
-
-    <button type="button" id="driverBtn">
-      🚖 চালক নিবন্ধন
-    </button>
-
-    <div id="driverForm" style="display:none;">
-
-      <h3>চালকের তথ্য দিন</h3>
-
-      <input id="driverName" placeholder="চালকের নাম">
-
-      <input
-        id="driverPhone"
-        type="tel"
-        placeholder="মোবাইল নম্বর"
-      >
-
-      <input
-        id="vehicleType"
-        placeholder="গাড়ির ধরন"
-      >
-
-      <input
-        id="vehicleNumber"
-        placeholder="গাড়ির নম্বর"
-      >
-
-      <button type="button" id="registerBtn">
-        নিবন্ধন করুন
-      </button>
-
-      <p id="driverMessage"></p>
-
-    </div>
-
-  </div>
-
-  <!-- Back to Mode -->
-  <button
-    type="button"
-    id="backModeBtn"
-    style="display:none;"
-  >
-    ↩️ ভূমিকা পরিবর্তন করুন
-  </button>
-
-  <!-- Admin -->
-  <button type="button" id="adminBtn">
-    ⚙️ অ্যাডমিন প্যানেল
-  </button>
-
-  <div id="adminPanel" style="display:none;">
-
-    <h2>অ্যাডমিন প্যানেল</h2>
-
-    <h3>চালকের আবেদন তালিকা</h3>
-
-    <div id="adminApplications">
-      আবেদন লোড হচ্ছে...
-    </div>
-
-  </div>
-
-  <!-- Logout -->
-  <button
-    type="button"
-    id="logoutBtn"
-    style="display:none;"
-  >
-    🚪 লগআউট
-  </button>
-
-</div>
-
-<!-- Supabase -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<!-- App Script -->
 <script src="script.js"></script>
 
 </body>
